@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Free Fall 3D, Group 3</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/video-mode.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Free Fall in 3D: College Physics 1, Chapter 4</h1>
+  <p class="meta">Group 3: Palconete, Pedrigal, Fuertes, Federizo, Yute</p>
+
+  <div class="stage" id="stage">
+    <canvas id="gl" role="img" aria-label="3D animated lesson about free fall"></canvas>
+    <div class="nogl" id="nogl">The 3D view needs WebGL. Try a recent version of Chrome, Edge, Safari or Firefox.</div>
+
+    <div class="ov" id="ov">
+      <!-- Scene 0 -->
+      <div class="sc" id="o0">
+        <div class="intro">
+          <div id="t0title" class="h1">Free Fall</div>
+          <div id="t0sub" class="fx sub1">College Physics 1, Chapter 4</div>
+          <div id="t0badge" class="fx badge">Group 3</div>
+          <div id="t0names" class="fx names">Palconete, Pedrigal, Fuertes,<br>Federizo, Yute</div>
+        </div>
+          <div id="nm0_0" class="fx pill white tag" style="opacity:0">Palconete</div>
+          <div id="nm0_1" class="fx pill white tag" style="opacity:0">Pedrigal</div>
+          <div id="nm0_2" class="fx pill white tag" style="opacity:0">Fuertes</div>
+          <div id="nm0_3" class="fx pill white tag" style="opacity:0">Federizo</div>
+          <div id="nm0_4" class="fx pill white tag" style="opacity:0">Yute</div>
+      </div>
+      <!-- Scene 1 -->
+      <div class="sc" id="o1">
+        <div id="q1" class="fx qmark">?</div>
+      </div>
+      <!-- Scene 2 -->
+      <div class="sc" id="o2">
+        <div id="pill2" class="fx pill white" style="left:50%;top:93%">Free fall = gravity only</div>
+      </div>
+      <!-- Scene 3 -->
+      <div class="sc" id="o3">
+        <div id="clk3" class="pill" style="left:50%;top:7%;min-width:calc(200*var(--u));text-align:center;font-size:calc(22*var(--u))">t = 0.0 s</div>
+        <div id="tk0" class="pill r tick">0 m</div>
+        <div id="tk1" class="pill r tick">50 m</div>
+        <div id="tk2" class="pill r tick">100 m</div>
+        <div id="l3_1" class="fx pill blue l" style="opacity:0">1 s: 9.8 m/s</div>
+        <div id="l3_2" class="fx pill blue l" style="opacity:0">2 s: 19.6 m/s</div>
+        <div id="l3_3" class="fx pill blue l" style="opacity:0">3 s: 29.4 m/s</div>
+        <div id="l3_4" class="fx pill blue l" style="opacity:0">4 s: 39.2 m/s</div>
+        <div id="l3_5" class="fx pill blue l" style="opacity:0">5 s: 49.0 m/s</div>
+        <div id="g3" class="fx pill red" style="font-size:calc(22*var(--u))">g = 9.8 m/s²</div>
+        <div id="g3b" class="fx pill white" style="color:#A32D2D;border:2px solid #E24B4A">Down is negative: g = −9.8</div>
+      </div>
+      <!-- Scene 4 -->
+      <div class="sc" id="o4">
+        <div id="st4" class="pill" style="left:50%;top:7%;min-width:calc(300*var(--u));text-align:center">Throw the ball up</div>
+        <div id="vp4" class="fx pill blue l">v = 0.0 m/s</div>
+        <div id="g4" class="fx pill red">g = −9.8</div>
+      </div>
+      <!-- Scene 5 -->
+      <div class="sc" id="o5">
+        <div id="n5" class="fx note">Use g = −9.8 m/s² (downward is negative)</div>
+      </div>
+      <!-- Scene 6 -->
+      <div class="sc" id="o6">
+        <div id="p6" class="fx card w" style="left:3%;top:5%;width:37%">
+          <div class="ln">A ball is thrown upward.</div>
+          <div class="ln">Vo = 20 m/s, g = −9.8 m/s²</div>
+          <div class="ln">Find: time up, height, total time</div>
+        </div>
+        <div id="hb6" class="fx pill green">H</div>
+        <div id="st6_0" class="fx card" style="left:67%;top:5%;width:30%"><div class="lbl">Time to the top (Vf = Vo + gt)</div><div class="val">t = 20 / 9.8 = 2.04 s</div></div>
+        <div id="st6_1" class="fx card" style="left:67%;top:29%;width:30%"><div class="lbl">Maximum height (Vf² = Vo² + 2gd)</div><div class="val">H = 400 / 19.6 = 20.41 m</div></div>
+        <div id="st6_2" class="fx card" style="left:67%;top:53%;width:30%"><div class="lbl">Total time in the air</div><div class="val">T = 2 × 2.04 ≈ 4.1 s</div></div>
+      </div>
+      <!-- Scene 7 -->
+      <div class="sc" id="o7">
+        <div class="checks">
+          <div id="b7_0" class="fx chk"><i></i>Motion under gravity alone</div>
+          <div id="b7_1" class="fx chk"><i></i>g = 9.8 m/s², directed downward</div>
+          <div id="b7_2" class="fx chk"><i></i>Time going up = time coming down</div>
+        </div>
+        <div id="nm7_0" class="fx pill white tag" style="opacity:0">Palconete</div>
+        <div id="nm7_1" class="fx pill white tag" style="opacity:0">Pedrigal</div>
+        <div id="nm7_2" class="fx pill white tag" style="opacity:0">Fuertes</div>
+        <div id="nm7_3" class="fx pill white tag" style="opacity:0">Federizo</div>
+        <div id="nm7_4" class="fx pill white tag" style="opacity:0">Yute</div>
+        <div id="end7" class="fx endc" style="opacity:0">
+          <div class="e1">Free Fall, Chapter 4</div>
+          <div class="e2">Group 3</div>
+          <div class="e3">Palconete, Pedrigal, Fuertes, Federizo, Yute</div>
+          <div class="e4">Thanks for watching!</div>
+        </div>
+      </div>
+    </div>
+    <div class="hint" id="hint">Drag to look around</div>
+  </div>
+
+  <div class="sub" id="sub" aria-live="polite">Press Play to start.</div>
+
+  <div class="bar">
+    <button id="play" class="primary" type="button">Play</button>
+    <button id="prev" type="button">Previous</button>
+    <button id="next" type="button">Next</button>
+    <button id="restart" type="button">Restart</button>
+    <label class="voice" id="voiceWrap"><input type="checkbox" id="voice"> Voice narration</label>
+    <span class="time" id="time">0:00 / 0:00</span>
+  </div>
+  <input type="range" id="scrub" min="0" max="235" step="0.1" value="0" aria-label="Timeline">
+  <div class="chips" id="chips"></div>
+</div>
+
+<!-- Three.js (3D engine), loaded from CDN: needs an internet connection -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Main animation: scenes, characters, timeline -->
+<script src="js/main.js"></script>
+<!-- Video-only behavior: autoplay, no narration, keyboard shortcuts -->
+<script src="js/video-mode.js"></script>
+</body>
+</html>

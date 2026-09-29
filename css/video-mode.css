@@ -1,0 +1,11 @@
+/* ---- video-only mode: no visible controls ---- */
+html,body{height:100%;overflow:hidden}
+body{background:#000;display:grid;place-items:center;cursor:default}
+.wrap{max-width:none;padding:0;width:min(100vw,calc(100vh*16/9))}
+h1,.meta,.bar,#scrub,#chips,.hint,button,label,input,#sub,.sub{display:none !important}
+.stage{border:0;border-radius:0}
+.stage canvas{cursor:default;touch-action:none}
+#pill2{top:84% !important}
+.stage .sub{position:absolute;left:50%;bottom:2.5%;transform:translateX(-50%);margin:0;min-height:0;width:auto;max-width:88%;
+  padding:calc(6*var(--u)) calc(16*var(--u));font-size:calc(20*var(--u));line-height:1.35;text-align:center;justify-content:center;
+  background:rgba(0,0,0,.62);color:#fff;border:0;border-radius:calc(10*var(--u));pointer-events:none;z-index:5}
