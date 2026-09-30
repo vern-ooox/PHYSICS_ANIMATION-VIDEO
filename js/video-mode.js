@@ -10,13 +10,17 @@
        Palconete : scene 1 (Intro) + scene 2 (The question)                              0 s -> 40 s
        Pedrigal  : scene 3 + start of scene 4 (played from js/main.js, not from here)   40 s -> 92 s
        Fuertes   : rest of scene 4 + scene 5 (Going up, coming down)                    92 s -> 140 s
-       Veronica  : scene 5 (The equations)      + scene 6 (Sample problem)              140 s -> 210 s
-       Yute      : end of scene 6 + scene 7 (Recap)                                     189 s -> 235 s */
+       Veronica  : scene 5 (The equations) only                                         140 s -> 165 s
+       Federizo  : scene 6 (Sample problem), part (a) - natural speed, video follows her    165 s -> 199.2 s
+       Yute      : scene 7 (Recap) only                                                 226 s -> 248.9 s
+       NOTE: the video is now 4:08.9 long. Yute still has to record the sample problem parts (b) and (c)
+       (199.9 s -> 226 s), so that part is silent for now. The background music (3:55) ends early. */
   var CLIPS = [
     { name:'Palconete', file:'audio/palconete_synced.mp3', start:0,   len:40, tol:0.4 },
-    { name:'Veronica', file:'audio/veronica.mp3',  start:140, len:70, tol:0.25 },
+    { name:'Veronica', file:'audio/veronica.mp3',  start:140, len:25, tol:0.25 },
     { name:'Fuertes',  file:'audio/fuertes_synced.mp3',   start:92,  len:48, tol:0.4 },
-    { name:'Yute',     file:'audio/yute_synced.mp3',      start:189, len:46, tol:0.4 }
+    { name:'Federizo', file:'audio/federizo_problem.mp3',  start:165, len:34.19, tol:0.4 },
+    { name:'Yute',     file:'audio/yute_recap_synced.mp3', start:226.0, len:22.9, tol:0.4 }
   ];
   var missing = {}, unlocked = false, wasBlocked = false;
   CLIPS.forEach(function(c){
@@ -36,14 +40,17 @@
        0 - 40 s    Palconete
        40 - 92 s   Pedrigal
        92 - 140 s  Fuertes
-       140 - 189 s Veronica
-       189 - 235 s Yute */
+       140 - 165 s Veronica (equations)
+       165 - 199 s Federizo (sample problem, part a)
+       199 - 226 s Sample problem (b) and (c): waiting for Yute's recording
+       226 - 249 s Yute (recap) */
   var VOICE = [
     [0.22, 13.56], [14.76, 21.89], [23.13, 28.32], [31.47, 37.65],                                   /* Palconete */
     [40.0, 47.75], [50.0, 59.9], [63.0, 66.1], [70.0, 79.2], [82.0, 91.05],                          /* Pedrigal  */
     [92.05, 109.1], [110.05, 111.7], [115.05, 122.3], [126.05, 129.4], [132.05, 137.1],              /* Fuertes   */
-    [140.53, 144.69], [146.34, 163.43], [164.93, 170.28], [171.72, 173.18], [174.76, 177.32], [178.7, 187.91], /* Veronica */
-    [189.05, 234.4]                                                                                  /* Yute      */
+    [140.53, 144.69], [146.34, 163.43],                                                              /* Veronica  */
+    [165.04, 186.40], [187.68, 199.03],                                                              /* Federizo  */
+    [226.05, 248.3]                                                                                  /* Yute      */
   ];
   BG.a = new Audio(BG.file);
   BG.a.preload = 'auto';

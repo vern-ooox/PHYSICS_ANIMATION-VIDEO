@@ -442,6 +442,27 @@
   var b7 = makeBall(); b7.scale.setScalar(1.2); g7.add(b7);
   var f7 = makeFeather(); f7.scale.setScalar(1.2); g7.add(f7);
 
+  /* ---------- sample problem: worked solution (parts a, b, c) ---------- */
+  var WORK = [
+    { t:'(a) TIME', g:'Vo = 20 m/s, Vf = 0 (maximum height)', u:'tmax = ?', e:'Vf = Vo + gt',
+      s:'0 = 20 m/s + (\u22129.8 m/s\u00B2) tmax<br>\u221220 = \u22129.8 tmax \u2192 tmax = 20 / 9.8', a:'tmax = 2.04 s' },
+    { t:'(b) HEIGHT', g:'Vo = 20 m/s, Vf = 0, t = 2.04 s', u:'d = ?', e:'d = Vot + gt\u00B2/2',
+      s:'d = (20)(2.04) + (\u22129.8)(2.04)\u00B2 / 2<br>d = 40.8 m \u2212 20.39 m', a:'d = 20.41 m' },
+    { t:'(c) TIME IN THE AIR', g:'t\u2191 = 2.04 s, t\u2193 = 2.04 s', u:'tair = ?', e:'tair = t\u2191 + t\u2193',
+      s:'tair = 2.04 s + 2.04 s', a:'tair = 4.08 s' }
+  ];
+  var lastWork = -2;
+  function setWork(P){
+    if(P===lastWork || P<0){ if(P<0) lastWork = -1; return; }
+    lastWork = P; var d = WORK[P];
+    $('w6t').textContent = d.t;
+    $('w6g').innerHTML = '<b>Given:</b>'+d.g;
+    $('w6u').innerHTML = '<b>Unknown:</b>'+d.u;
+    $('w6e').innerHTML = '<b>Equation:</b>'+d.e;
+    $('w6s').innerHTML = '<b>Solution:</b>'+d.s;
+    $('w6a').innerHTML = '<b>Answer:</b>'+d.a;
+  }
+
   /* ---------- timeline ---------- */
   var scenes = [
     { name:'Intro', dur:15, g:g0,
@@ -582,21 +603,47 @@
         setCam(0,4.0,15.5, 0,4.0,-0.5, t);
         anchor('n5', 0, 1.25, -.5);
       }},
-    { name:'Sample problem', dur:47.1, g:r6.g,
-      narr:['Let us try one.','A ball is thrown upward at 20 meters per second.','When does it reach the top?','At the top, the final velocity is zero.','Using Vf equals Vo plus gt, time equals 20 divided by 9.8, which is 2.04 seconds.','How high does it go?','Using Vf squared equals Vo squared plus 2gd, we get 400 divided by 19.6, which is 20.41 meters.','What is the total time in the air?','Going up takes as long as coming down, so we double 2.04 seconds.','In total, about 4.1 seconds.'],
-      at:[0,2,7,10,14,21,24,35.4,37.6,44.2],
-      upd:function(t,si){
+    { name:'Sample problem', dur:61.0, g:r6.g,
+      /* 0-7 = Federizo (recorded, cues follow her audio). 8-16 = Yute (not recorded yet, cues are placeholders) */
+      narr:['Let us try one.',
+            'A ball is thrown upward at 20 meters per second.',
+            'To find the time.',
+            'Given: Vo is 20 meters per second, and Vf is 0 meters per second.',
+            'Unknown: t max.',
+            'Equation: Vf equals Vo plus gt.',
+            'Solving, t max equals 20 meters per second over 9.8 meters per second squared.',
+            'Answer: t max is 2.04 seconds.',
+            'To find the height.',
+            'Given: Vo is 20 meters per second, Vf is 0 meters per second, and t is 2.04 seconds.',
+            'Equation: d equals Vo t plus gt squared over 2.',
+            'Solving, d equals 40.8 meters minus 20.39 meters.',
+            'Answer: d is 20.41 meters.',
+            'To find the time in the air.',
+            'Given: t up is 2.04 seconds, and t down is 2.04 seconds.',
+            'Unknown: t air. Equation: t up plus t down.',
+            'Solution: 2.04 seconds plus 2.04 seconds. Answer: t air is 4.08 seconds.'],
+      at:[0,1.8,5.85,6.9,16.1,18.65,22.65,30.1,34.9,37.2,40.6,44.0,46.2,48.4,51.0,54.7,58.4],
+      upd:function(t,si,p,s){
         op('p6', si>=1?1:0);
+        /* work panel: Given / Unknown / Equation / Solution / Answer, one part at a time.
+           TH rows: [title, given, unknown, equation, solution, answer] = caption number at which each row appears */
+        var P = si>=13 ? 2 : (si>=8 ? 1 : (si>=2 ? 0 : -1));
+        setWork(P);
+        var TH = [[2,3,4,5,6,7],[8,9,9,10,11,12],[13,14,15,15,16,16]][Math.max(P,0)];
+        var ansOn = si>=TH[5] && (P<2 || t>=s.starts[16]+1.0);
+        op('w6', P>=0?1:0);
+        op('w6t', si>=TH[0]?1:0); op('w6g', si>=TH[1]?1:0); op('w6u', si>=TH[2]?1:0);
+        op('w6e', si>=TH[3]?1:0); op('w6s', si>=TH[4]?1:0); op('w6a', ansOn?1:0);
         var sT = 4.08*((t%8)/8);
         var y = r6.launch + S_M*(20*sT-4.9*sT*sT);
         r6.ball.position.set(BX6,y,0); r6.ball.rotation.z = -sT*3; r6.ball.rotation.x = sT*1.5;
         pose(r6.m, sT<0.3?1.9:0.5, 0.15);
         for(var i=0;i<w6.length;i++){
           look(w6[i], C((y-r6.launch)/PEAK)*0.6);
-          pose(w6[i], si>=9?2.8+Math.sin(t*9+i)*0.3:0.15, si>=9?2.8+Math.cos(t*9+i)*0.3:0.15);
+          pose(w6[i], si>=16?2.8+Math.sin(t*9+i)*0.3:0.15, si>=16?2.8+Math.cos(t*9+i)*0.3:0.15);
         }
-        op('st6_0', si>=4?1:0); op('st6_1', si>=6?1:0); op('st6_2', si>=9?1:0);
-        op('hb6', si>=6?1:0); hd6.visible = si>=6;
+        op('hb6', si>=8?1:0); hd6.visible = si>=8;
+        $('hb6').textContent = si>=12 ? 'H = 20.41 m' : 'H';
         setCam(-0.3,5.2,16, -0.6,5.0,0, t);
         anchor('hb6', BX6+1.9, r6.launch+PEAK/2, 0);
       }},
@@ -694,7 +741,7 @@
   canvas.addEventListener('pointercancel', endDrag);
 
   /* ---------- narrators: [start time in seconds, name] ---------- */
-  var SPEAKERS = [[0,'PALCONETE'],[40,'PEDRIGAL'],[92,'FUERTES'],[140,'FEDERIZO'],[189,'YUTE']];
+  var SPEAKERS = [[0,'PALCONETE'],[40,'PEDRIGAL'],[92,'FUERTES'],[140,'FEDERIZO'],[199.9,'YUTE']];
   function speakerAt(x){
     var name = SPEAKERS[0][1];
     for(var i=0;i<SPEAKERS.length;i++){ if(x>=SPEAKERS[i][0]) name = SPEAKERS[i][1]; }

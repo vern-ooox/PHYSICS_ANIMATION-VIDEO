@@ -6,6 +6,15 @@
 <title>Free Fall 3D, Group 3</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/video-mode.css">
+<style>
+/* Sample problem (scene 6): problem card + worked solution panel */
+#p6 .ln{font-size:calc(17*var(--u));line-height:1.5}
+.wk .tt{font-size:calc(22*var(--u));font-weight:700;color:#185FA5;margin-bottom:calc(4*var(--u))}
+.wk .r{font-size:calc(17*var(--u));line-height:1.45;margin-top:calc(4*var(--u));font-variant-numeric:tabular-nums}
+.wk .r b{color:#5A6B62;font-weight:600;margin-right:calc(6*var(--u))}
+.wk .r.a{display:inline-block;font-size:calc(21*var(--u));font-weight:700;color:#3B6D11;border:calc(2*var(--u)) solid #3B6D11;border-radius:calc(8*var(--u));padding:calc(3*var(--u)) calc(12*var(--u));margin-top:calc(8*var(--u))}
+.wk .r.a b{color:#3B6D11;font-weight:600}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -63,17 +72,24 @@
       <div class="sc" id="o5">
         <div id="n5" class="fx note">Use g = −9.8 m/s² (downward is negative)</div>
       </div>
-      <!-- Scene 6 -->
+      <!-- Scene 6: sample problem. Left = worked solution, right = the problem -->
       <div class="sc" id="o6">
-        <div id="p6" class="fx card w" style="left:3%;top:5%;width:37%">
+        <div id="w6" class="fx card w wk" style="left:3%;top:4%;width:46%;opacity:0">
+          <div id="w6t" class="fx tt">(a) TIME</div>
+          <div id="w6g" class="fx r"></div>
+          <div id="w6u" class="fx r"></div>
+          <div id="w6e" class="fx r"></div>
+          <div id="w6s" class="fx r"></div>
+          <div id="w6a" class="fx r a"></div>
+        </div>
+        <div id="p6" class="fx card w" style="left:67%;top:3%;width:30%">
           <div class="ln">A ball is thrown upward.</div>
           <div class="ln">Vo = 20 m/s, g = −9.8 m/s²</div>
-          <div class="ln">Find: time up, height, total time</div>
+          <div class="ln">Find: (a) time to the top</div>
+          <div class="ln">(b) maximum height</div>
+          <div class="ln">(c) time in the air</div>
         </div>
-        <div id="hb6" class="fx pill green">H</div>
-        <div id="st6_0" class="fx card" style="left:67%;top:5%;width:30%"><div class="lbl">Time to the top (Vf = Vo + gt)</div><div class="val">t = 20 / 9.8 = 2.04 s</div></div>
-        <div id="st6_1" class="fx card" style="left:67%;top:29%;width:30%"><div class="lbl">Maximum height (Vf² = Vo² + 2gd)</div><div class="val">H = 400 / 19.6 = 20.41 m</div></div>
-        <div id="st6_2" class="fx card" style="left:67%;top:53%;width:30%"><div class="lbl">Total time in the air</div><div class="val">T = 2 × 2.04 ≈ 4.1 s</div></div>
+        <div id="hb6" class="fx pill green l">H</div>
       </div>
       <!-- Scene 7 -->
       <div class="sc" id="o7">
