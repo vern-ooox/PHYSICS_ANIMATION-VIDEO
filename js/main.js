@@ -446,6 +446,7 @@
   var scenes = [
     { name:'Intro', dur:15, g:g0,
       narr:['Hi everyone!','We are Group 3: Palconete, Pedrigal, Fuertes, Federizo, and Yute.','Today, we will learn about free fall in College Physics 1, Chapter 4.'],
+      at:[0,2,8],
       upd:function(t,si){
         op('t0title', C((t-0.3)/1));
         op('t0badge', si>=1?1:0); op('t0names', si>=1?1:0); op('t0sub', si>=2?1:0);
@@ -464,7 +465,8 @@
         for(var n=0;n<5;n++){ op('nm0_'+n, si>=1?1:0); anchor('nm0_'+n, c0[n].bx, c0[n].top, c0[n].bz); }
       }},
     { name:'The question', dur:25, g:g1,
-      narr:['Have you ever wondered what happens when you drop something?','Does a heavy ball fall faster than a light feather?','Today, we will find out.','Welcome to free fall.'],
+      narr:['Have you ever wondered what happens when you drop something? Imagine holding two very different objects on a rooftop.','Does a heavy ball fall faster than a light feather? Many people would guess that it does.','Today, we will find out. Watch what happens!','Welcome to free fall.'],
+      at:[0,8,17,21],
       upd:function(t,si,p,s){
         op('q1', si>=1?1:0);
         var d = t - s.starts[2], on = (si>=2 && d>0), tau = on?d:0;
@@ -484,7 +486,8 @@
         setCam(2.5,5.6,19.5, -1.8,4.4,0, t);
       }},
     { name:'What is free fall?', dur:30, g:g2,
-      narr:['Free fall is motion where gravity is the only thing acting on an object.','If we ignore air resistance, every object falls with the same acceleration, whether it is heavy or light.','That is why the ball and the feather land together.'],
+      narr:['Free fall is motion where gravity is the only force acting on an object. Nothing pushes it, and nothing holds it back.','If we ignore air resistance, every object falls with the same acceleration, whether it is heavy or light. Here, the air has been removed from the tube.','That is why the ball and the feather land together.'],
+      at:[0,10,23],
       upd:function(t,si,p,s){
         var st = si>=2 ? s.starts[2] : s.starts[1];
         var tau = si>=1 ? t-st : -1;
@@ -506,7 +509,8 @@
         setCam(0,5.0,19.5, 0,4.6,0, t);
       }},
     { name:'Acceleration due to gravity', dur:40, g:g3,
-      narr:['On Earth, this acceleration is called g, and its value is 9.8 meters per second squared.','This means that every second, the falling ball gets 9.8 meters per second faster.','After one second, 9.8.','After two seconds, 19.6.','And it keeps increasing.','Gravity always points downward, so we give it a negative sign.'],
+      narr:['On Earth, this acceleration is called g, and its value is 9.8 meters per second squared. Watch the ball fall along this ruler.','This means that every second, the falling ball gets 9.8 meters per second faster. Its speed keeps building up as it falls.','After one second, 9.8 meters per second.','After two seconds, 19.6 meters per second.','And it keeps increasing, faster and faster.','Gravity always points downward, so we give it a negative sign: g equals negative 9.8.'],
+      at:[0,12,22,25,29,32],
       upd:function(t,si,p){
         var TS=[0,0,0.6,1,2,5], TE=[0,0.6,1,2,5,5];
         var tau = lerp(TS[si],TE[si],C(p*1.5));
@@ -532,7 +536,8 @@
         anchor('g3', 7.2, 12.3, 0); anchor('g3b', 7.2, 2.0, 0);
       }},
     { name:'Going up, coming down', dur:30, g:r4.g,
-      narr:['Now let us throw the ball upward.','It slows down by 9.8 meters per second every second, until it stops for a moment at the top.','Then it falls back down and speeds up again.','Notice that the acceleration is the same going up and going down: negative 9.8.'],
+      narr:['Now let us throw the ball upward.','As it rises, it slows down by 9.8 meters per second every second, until it stops for a moment at the top.','Then it falls back down and speeds up again. Just like before.','Notice that the acceleration is the same going up and going down: negative 9.8.'],
+      at:[0,5,16,22],
       upd:function(t,si,p){
         var sT = 0;
         if(si===1) sT = 2.04*p; else if(si===2) sT = 2.04+2.04*p; else if(si===3) sT = 4.08*p;
@@ -560,7 +565,8 @@
         anchor('g4', 7.2, 9.6, 0);
       }},
     { name:'The equations', dur:25, g:g5,
-      narr:['To solve free fall problems, we use three equations.','The first connects velocity and time.','The second connects distance and time.','The third connects velocity and distance.','Remember to use negative 9.8 for g.'],
+      narr:['To solve free fall problems, we use three equations. Here they are.','The first connects velocity and time: Vf equals Vo plus gt.','The second connects distance and time. It tells us how far.','The third connects velocity and distance. It works even without time.','Remember to use negative 9.8 for g.'],
+      at:[0,6,11,15,20],
       upd:function(t,si,p,s){
         for(var k=0;k<3;k++){
           var a=k+1, ts = si>=a ? t-s.starts[a] : -1;
@@ -577,7 +583,8 @@
         anchor('n5', 0, 1.25, -.5);
       }},
     { name:'Sample problem', dur:45, g:r6.g,
-      narr:['Let us try one.','A ball is thrown upward at 20 meters per second.','When does it reach the top?','At the top, the final velocity is zero.','Using Vf equals Vo plus gt, time equals 20 divided by 9.8, which is 2.04 seconds.','How high does it go?','Using Vf squared equals Vo squared plus 2gd, we get 400 divided by 19.6, which is 20.41 meters.','What is the total time in the air?','Going up takes as long as coming down, so we double 2.04 seconds.','The total is about 4.1 seconds.'],
+      narr:['Let us try one.','A ball is thrown upward at 20 meters per second.','When does it reach the top?','At the top, the final velocity is zero.','Using Vf equals Vo plus gt, time equals 20 divided by 9.8, which is 2.04 seconds.','How high does it go?','Using Vf squared equals Vo squared plus 2gd, we get 400 divided by 19.6, which is 20.41 meters.','What is the total time in the air?','Going up takes as long as coming down, so we double 2.04 seconds.','In total, about 4.1 seconds.'],
+      at:[0,2,7,10,14,21,24,32,36,42],
       upd:function(t,si){
         op('p6', si>=1?1:0);
         var sT = 4.08*((t%8)/8);
@@ -594,7 +601,8 @@
         anchor('hb6', BX6+1.9, r6.launch+PEAK/2, 0);
       }},
     { name:'Recap', dur:25, g:g7,
-      narr:['Let us review.','Free fall is motion under gravity alone.','The acceleration is 9.8 meters per second squared, directed downward.','And the time going up equals the time coming down.','Now you know why the ball and the feather fall together.','Thanks for watching!'],
+      narr:['Let us review.','Free fall is motion under gravity alone. Nothing else.','The acceleration is 9.8 meters per second squared, directed downward. That is g.','And the time going up equals the time coming down.','Now you know why the ball and the feather fall together.','Thanks for watching!'],
+      at:[0,2,6,12,17,23],
       upd:function(t,si,p,s){
         for(var k=0;k<3;k++){ op('b7_'+k, (si>=k+1 && si<5)?1:0); }
         var mix = si>=5 ? ease(C((t-s.starts[5])/1.6)) : 0;
@@ -626,9 +634,17 @@
     var sum = w.reduce(function(a,b){ return a+b; },0), acc = 0;
     s.starts=[]; s.ends=[];
     w.forEach(function(x){ s.starts.push(acc/sum*s.dur); acc+=x; s.ends.push(acc/sum*s.dur); });
+    if(s.at){
+      s.starts = s.at.slice();
+      s.ends = s.at.slice(1).concat([s.dur]);
+    }
   });
 
   var T = 0, playing = false, cur = -1, last = performance.now(), scrubbing = false;
+  var pedrigalAudio = new Audio('audio/pedrigal.mp3');
+  /* each row: [video time the caption starts, audio start, audio end] (audio in seconds) */
+  var PED = [[40,1.85,9.6],[50,9.9,19.8],[63,20.2,23.3],[70,23.6,32.8],[82,32.95,42]];
+  var pedSeg = -1;
   var playBtn=$('play'), scrub=$('scrub'), voice=$('voice');
   scrub.max = total;
 
@@ -677,6 +693,14 @@
   canvas.addEventListener('pointerup', endDrag);
   canvas.addEventListener('pointercancel', endDrag);
 
+  /* ---------- narrators: [start time in seconds, name] ---------- */
+  var SPEAKERS = [[0,'PALCONETE'],[40,'PEDRIGAL'],[92,'FUERTES'],[140,'FEDERIZO'],[189,'YUTE']];
+  function speakerAt(x){
+    var name = SPEAKERS[0][1];
+    for(var i=0;i<SPEAKERS.length;i++){ if(x>=SPEAKERS[i][0]) name = SPEAKERS[i][1]; }
+    return name;
+  }
+
   /* ---------- render loop ---------- */
   function render(dt){
     var idx = 0;
@@ -694,12 +718,36 @@
     var p = C((t-s.starts[si])/(s.ends[si]-s.starts[si]));
     mixNow = 0;
     s.upd(t,si,p,s);
-    $('sub').textContent = (T<=0 && !playing) ? 'Press Play to start.' : s.narr[si];
+    $('sub').textContent = (T<=0 && !playing) ? 'Press Play to start.' : speakerAt(s.start+s.starts[si]) + ': ' + s.narr[si];
     $('time').textContent = fmt(T)+' / '+fmt(total);
     if(!scrubbing) scrub.value = T;
     if(!orbit.drag){ var kk = Math.exp(-dt*1.2); orbit.yaw *= kk; orbit.pitch *= kk; }
     drawWorld(T, mixNow);
     renderer.render(scene, camera);
+  }
+
+  /* keeps Pedrigal's audio in step with his captions */
+  function syncPedrigal(){
+    var seg = -1;
+    if(playing && T<92){
+      for(var i=0;i<PED.length;i++){ if(T>=PED[i][0]) seg = i; }
+    }
+    if(seg<0){
+      if(!pedrigalAudio.paused){ pedrigalAudio.pause(); }
+      pedSeg = -1;
+      return;
+    }
+    var want = PED[seg][1] + (T-PED[seg][0]);
+    if(want>=PED[seg][2]){
+      if(!pedrigalAudio.paused){ pedrigalAudio.pause(); }
+      pedSeg = seg;
+      return;
+    }
+    if(seg!==pedSeg || pedrigalAudio.paused || Math.abs(pedrigalAudio.currentTime-want)>0.4){
+      pedSeg = seg;
+      pedrigalAudio.currentTime = want;
+      pedrigalAudio.play().catch(function(){});
+    }
   }
 
   function tick(now){
@@ -708,6 +756,7 @@
       T += Math.min(dt,0.1);
       if(T>=total){ T = total-0.01; setPlaying(false); playBtn.textContent='Replay'; }
     }
+    syncPedrigal();
     render(Math.min(dt,0.1));
     requestAnimationFrame(tick);
   }
