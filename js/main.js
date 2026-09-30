@@ -510,7 +510,7 @@
       }},
     { name:'Acceleration due to gravity', dur:40, g:g3,
       narr:['On Earth, this acceleration is called g, and its value is 9.8 meters per second squared. Watch the ball fall along this ruler.','This means that every second, the falling ball gets 9.8 meters per second faster. Its speed keeps building up as it falls.','After one second, 9.8 meters per second.','After two seconds, 19.6 meters per second.','And it keeps increasing, faster and faster.','Gravity always points downward, so we give it a negative sign: g equals negative 9.8.'],
-      at:[0,12,22,25,29,32],
+      at:[0,12,22,25.9,29.6,32.8],
       upd:function(t,si,p){
         var TS=[0,0,0.6,1,2,5], TE=[0,0.6,1,2,5,5];
         var tau = lerp(TS[si],TE[si],C(p*1.5));
@@ -582,9 +582,9 @@
         setCam(0,4.0,15.5, 0,4.0,-0.5, t);
         anchor('n5', 0, 1.25, -.5);
       }},
-    { name:'Sample problem', dur:45, g:r6.g,
+    { name:'Sample problem', dur:47.1, g:r6.g,
       narr:['Let us try one.','A ball is thrown upward at 20 meters per second.','When does it reach the top?','At the top, the final velocity is zero.','Using Vf equals Vo plus gt, time equals 20 divided by 9.8, which is 2.04 seconds.','How high does it go?','Using Vf squared equals Vo squared plus 2gd, we get 400 divided by 19.6, which is 20.41 meters.','What is the total time in the air?','Going up takes as long as coming down, so we double 2.04 seconds.','In total, about 4.1 seconds.'],
-      at:[0,2,7,10,14,21,24,32,36,42],
+      at:[0,2,7,10,14,21,24,35.4,37.6,44.2],
       upd:function(t,si){
         op('p6', si>=1?1:0);
         var sT = 4.08*((t%8)/8);
@@ -600,9 +600,9 @@
         setCam(-0.3,5.2,16, -0.6,5.0,0, t);
         anchor('hb6', BX6+1.9, r6.launch+PEAK/2, 0);
       }},
-    { name:'Recap', dur:25, g:g7,
+    { name:'Recap', dur:22.9, g:g7,
       narr:['Let us review.','Free fall is motion under gravity alone. Nothing else.','The acceleration is 9.8 meters per second squared, directed downward. That is g.','And the time going up equals the time coming down.','Now you know why the ball and the feather fall together.','Thanks for watching!'],
-      at:[0,2,6,12,17,23],
+      at:[0,1.3,6.0,13.8,17.5,20.9],
       upd:function(t,si,p,s){
         for(var k=0;k<3;k++){ op('b7_'+k, (si>=k+1 && si<5)?1:0); }
         var mix = si>=5 ? ease(C((t-s.starts[5])/1.6)) : 0;

@@ -8,10 +8,15 @@
      Each file is already retimed sentence by sentence to the animation cues and is
      exactly `len` seconds long, starting at `start` on the video timeline.
        Palconete : scene 1 (Intro) + scene 2 (The question)                              0 s -> 40 s
-       Veronica  : scene 5 (The equations)      + scene 6 (Sample problem)              140 s -> 210 s */
+       Pedrigal  : scene 3 + start of scene 4 (played from js/main.js, not from here)   40 s -> 92 s
+       Fuertes   : rest of scene 4 + scene 5 (Going up, coming down)                    92 s -> 140 s
+       Veronica  : scene 5 (The equations)      + scene 6 (Sample problem)              140 s -> 210 s
+       Yute      : end of scene 6 + scene 7 (Recap)                                     189 s -> 235 s */
   var CLIPS = [
     { name:'Palconete', file:'audio/palconete_synced.mp3', start:0,   len:40, tol:0.4 },
-    { name:'Veronica', file:'audio/veronica.mp3',  start:140, len:70, tol:0.25 }
+    { name:'Veronica', file:'audio/veronica.mp3',  start:140, len:70, tol:0.25 },
+    { name:'Fuertes',  file:'audio/fuertes_synced.mp3',   start:92,  len:48, tol:0.4 },
+    { name:'Yute',     file:'audio/yute_synced.mp3',      start:189, len:46, tol:0.4 }
   ];
   var missing = {}, unlocked = false, wasBlocked = false;
   CLIPS.forEach(function(c){
@@ -27,8 +32,19 @@
   var BG = { file:'audio/background.mp3', base:0.55, duck:0.20, tol:1.0 };   /* volumes: 0 (mute) to 1 (full)
                                                                            base = nobody speaking, duck = someone speaking */
   /* When the recorded voices are actually speaking, in seconds on the video timeline
-     (short pauses between words/sentences are merged, so the music stays low during a speech). */
-  var VOICE = [[0.22, 13.56], [14.76, 21.89], [23.13, 28.32], [31.47, 37.65], [140.53, 144.69], [146.34, 163.43], [164.93, 170.28], [171.72, 173.18], [174.76, 177.32], [178.7, 187.91]];
+     (short pauses between words/sentences are merged, so the music stays low during a speech).
+       0 - 40 s    Palconete
+       40 - 92 s   Pedrigal
+       92 - 140 s  Fuertes
+       140 - 189 s Veronica
+       189 - 235 s Yute */
+  var VOICE = [
+    [0.22, 13.56], [14.76, 21.89], [23.13, 28.32], [31.47, 37.65],                                   /* Palconete */
+    [40.0, 47.75], [50.0, 59.9], [63.0, 66.1], [70.0, 79.2], [82.0, 91.05],                          /* Pedrigal  */
+    [92.05, 109.1], [110.05, 111.7], [115.05, 122.3], [126.05, 129.4], [132.05, 137.1],              /* Fuertes   */
+    [140.53, 144.69], [146.34, 163.43], [164.93, 170.28], [171.72, 173.18], [174.76, 177.32], [178.7, 187.91], /* Veronica */
+    [189.05, 234.4]                                                                                  /* Yute      */
+  ];
   BG.a = new Audio(BG.file);
   BG.a.preload = 'auto';
   BG.a.volume = BG.base;
@@ -65,14 +81,17 @@
     scrub.value = t; scrub.dispatchEvent(new Event('input')); scrub.dispatchEvent(new Event('change'));
     if(play.textContent !== 'Pause'){ play.click(); }
   }
+  function clip(name){ for(var i=0;i<CLIPS.length;i++){ if(CLIPS[i].name === name) return CLIPS[i]; } }
   document.addEventListener('keydown', function(e){
     unlock();
     if(e.code === 'Space'){ e.preventDefault(); play.click(); }
     else if(e.key === 'f' || e.key === 'F'){
       if(document.fullscreenElement){ document.exitFullscreen(); } else { document.documentElement.requestFullscreen(); }
     }
-    else if(e.key === 'p' || e.key === 'P'){ jump(CLIPS[0].start); }   /* test: jump to Palconete's part */
-    else if(e.key === 'v' || e.key === 'V'){ jump(CLIPS[1].start); }   /* test: jump to Veronica's part */
+    else if(e.key === 'p' || e.key === 'P'){ jump(clip('Palconete').start); }   /* test: jump to Palconete's part */
+    else if(e.key === 'u' || e.key === 'U'){ jump(clip('Fuertes').start); }     /* test: jump to Fuertes's part */
+    else if(e.key === 'v' || e.key === 'V'){ jump(clip('Veronica').start); }    /* test: jump to Veronica's part */
+    else if(e.key === 'y' || e.key === 'Y'){ jump(clip('Yute').start); }        /* test: jump to Yute's part */
   });
 
   function syncVoice(){
