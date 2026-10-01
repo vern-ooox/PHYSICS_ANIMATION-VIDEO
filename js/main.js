@@ -442,16 +442,20 @@
   var b7 = makeBall(); b7.scale.setScalar(1.2); g7.add(b7);
   var f7 = makeFeather(); f7.scale.setScalar(1.2); g7.add(f7);
 
-  /* ---------- sample problem: worked solution (parts a, b, c) ---------- */
+  /* ---------- sample problem: worked solution (parts a, b, c) ----------
+     s = solution lines, k = caption number at which each line appears
+     (so each line shows up exactly when the narrator says it) */
   var WORK = [
     { t:'(a) TIME', g:'Vo = 20 m/s, Vf = 0 (maximum height)', u:'tmax = ?', e:'Vf = Vo + gt',
-      s:'0 = 20 m/s + (\u22129.8 m/s\u00B2) tmax<br>\u221220 = \u22129.8 tmax \u2192 tmax = 20 / 9.8', a:'tmax = 2.04 s' },
+      s:['0 = 20 m/s + (\u22129.8 m/s\u00B2) tmax', '\u221220 = \u22129.8 tmax', 'tmax = 20 / 9.8'], k:[6,7,8], a:'tmax = 2.04 s' },
     { t:'(b) HEIGHT', g:'Vo = 20 m/s, Vf = 0, t = 2.04 s', u:'d = ?', e:'d = Vot + gt\u00B2/2',
-      s:'d = (20)(2.04) + (\u22129.8)(2.04)\u00B2 / 2<br>d = 40.8 m \u2212 20.39 m', a:'d = 20.41 m' },
+      s:['d = (20)(2.04) + (\u22129.8)(2.04)\u00B2 / 2', 'd = 40.8 m + (\u221220.39 m)', 'd = 40.8 m \u2212 20.39 m'], k:[14,15,16], a:'d = 20.41 m' },
     { t:'(c) TIME IN THE AIR', g:'t\u2191 = 2.04 s, t\u2193 = 2.04 s', u:'tair = ?', e:'tair = t\u2191 + t\u2193',
-      s:'tair = 2.04 s + 2.04 s', a:'tair = 4.08 s' }
+      s:['tair = 2.04 s + 2.04 s', '2.04 + 2.04 = 4.08'], k:[22,23], a:'tair = 4.08 s' }
   ];
-  var lastWork = -2;
+  var lastWork = -2, solEls = [];
+  /* time (seconds from the start of the Sample problem scene) at which the narrator says each solution line */
+  var LT = [[27.77,37.47,50.08],[87.31,105.81,125.01],[167.13,174.16]];
   function setWork(P){
     if(P===lastWork || P<0){ if(P<0) lastWork = -1; return; }
     lastWork = P; var d = WORK[P];
@@ -459,7 +463,8 @@
     $('w6g').innerHTML = '<b>Given:</b>'+d.g;
     $('w6u').innerHTML = '<b>Unknown:</b>'+d.u;
     $('w6e').innerHTML = '<b>Equation:</b>'+d.e;
-    $('w6s').innerHTML = '<b>Solution:</b>'+d.s;
+    $('w6s').innerHTML = '<b>Solution:</b>' + d.s.map(function(l){ return '<span class="fx sl" style="opacity:0">'+l+'</span>'; }).join('');
+    solEls = $('w6s').querySelectorAll('.sl');
     $('w6a').innerHTML = '<b>Answer:</b>'+d.a;
   }
 
@@ -587,7 +592,11 @@
       }},
     { name:'The equations', dur:26.9, g:g5,
       narr:['To solve free fall problems, we use three equations. Here they are.','The first connects velocity and time: Vf equals Vo plus gt.','The second connects distance and time. It tells us how far.','The third connects velocity and distance. It works even without time.','Remember to use negative 9.8 for g.'],
-      at:[0,6,11.47,16.8,21.9],
+      at:[0,6.01,11.45,16.79,21.87],
+      /* caption sentences, each shown when the narrator starts saying it (seconds from scene start) */
+      chunks:{0:[[-0.01,"To solve free fall problems, we use three equations."],[2.08,"Here they are."]],
+               2:[[11.45,"The second connects distance and time."],[13.68,"It tells us how far."]],
+               3:[[16.79,"The third connects velocity and distance."],[18.92,"It works even without time."]]},
       upd:function(t,si,p,s){
         for(var k=0;k<3;k++){
           var a=k+1, ts = si>=a ? t-s.starts[a] : -1;
@@ -631,9 +640,13 @@
             'Solving: substitute the values. t air equals 2.04 seconds plus 2.04 seconds.',
             'Add: 2.04 plus 2.04 equals 4.08.',
             'Answer: t air is 4.08 seconds.'],
-      at:[0,2.03,6.11,8.23,17.43,19.98,24.72,37.42,46.57,54.57,
-          61.17,63.87,75.74,77.66,83.47,105.65,124.97,133.75,
-          140.14,144.34,156.04,158.63,163.83,174.15,182.45],
+      at:[0,2.02,6.11,8.22,17.41,19.99,24.7,37.42,46.57,54.56,
+          61.15,63.85,75.72,77.62,83.57,105.76,124.96,133.74,
+          140.1,144.32,156.05,158.6,163.83,174.11,182.45],
+      chunks:{6:[[24.7,"Solving: substitute the values."],[27.72,"Zero equals 20 meters per second plus negative 9.8 meters per second squared times t max."]],
+               14:[[83.57,"Solving: substitute the values."],[87.26,"d equals 20 meters per second times 2.04 seconds, plus negative 9.8 meters per second squared times 2.04 seconds squared, over 2."]],
+               19:[[144.32,"Given: the time going up equals the time coming down."],[147.75,"So t up is 2.04 seconds, and t down is 2.04 seconds."]],
+               22:[[163.83,"Solving: substitute the values."],[167.08,"t air equals 2.04 seconds plus 2.04 seconds."]]},
       upd:function(t,si,p,s){
         op('p6', si>=1?1:0);
         /* work panel: Given / Unknown / Equation / Solution / Answer, one part at a time.
@@ -641,12 +654,20 @@
         var P = si>=18 ? 2 : (si>=10 ? 1 : (si>=2 ? 0 : -1));
         setWork(P);
         var TH = [[2,3,4,5,6,9],[10,11,12,13,14,17],[18,19,20,21,22,24]][Math.max(P,0)];
+        var lt = LT[Math.max(P,0)];
         var ansOn = si>=TH[5];
         op('w6', P>=0?1:0);
         op('w6t', si>=TH[0]?1:0); op('w6g', si>=TH[1]?1:0); op('w6u', si>=TH[2]?1:0);
         op('w6e', si>=TH[3]?1:0); op('w6s', si>=TH[4]?1:0); op('w6a', ansOn?1:0);
-        var sT = 4.08*((t%8)/8);
-        var y = r6.launch + S_M*(20*sT-4.9*sT*sT);
+        /* each solution line appears when the narrator reaches it */
+        for(var q=0;q<solEls.length;q++){ solEls[q].style.opacity = t>=lt[q]?1:0; }
+        /* ball follows the narrator's words (seconds from scene start):
+           rises while she says "A ball is thrown upward at 20 meters per second",
+           hovers at the top while parts (a) and (b) are solved,
+           and comes down from "the time coming down" until "t down is 2.04 seconds" */
+        var BR = [2.8,5.63], BF = [146.44,156.06];
+        var sT = t<BR[0] ? 0 : (t<BR[1] ? 2.04*(t-BR[0])/(BR[1]-BR[0]) : (t<BF[0] ? 2.04 : (t<BF[1] ? 2.04+2.04*(t-BF[0])/(BF[1]-BF[0]) : 4.08)));
+        var y = r6.launch + S_M*(20*sT-4.9*sT*sT) + ((t>=BR[1] && t<BF[0]) ? Math.sin(t*2)*0.04 : 0);
         r6.ball.position.set(BX6,y,0); r6.ball.rotation.z = -sT*3; r6.ball.rotation.x = sT*1.5;
         pose(r6.m, sT<0.3?1.9:0.5, 0.15);
         for(var i=0;i<w6.length;i++){
@@ -660,7 +681,9 @@
       }},
     { name:'Recap', dur:27.44, g:g7,
       narr:['Let us review.','Free fall is motion under gravity alone. Nothing else.','The acceleration is 9.8 meters per second squared, directed downward. That is g.','And the time going up equals the time coming down.','Now you know why the ball and the feather fall together.','Thanks for watching!'],
-      at:[0,1.84,7.0,16.44,20.59,24.78],
+      at:[0,1.81,6.98,16.44,20.56,24.82],
+      chunks:{1:[[1.81,"Free fall is motion under gravity alone."],[5.47,"Nothing else."]],
+               2:[[6.98,"The acceleration is 9.8 meters per second squared, directed downward."],[14.69,"That is g."]]},
       upd:function(t,si,p,s){
         for(var k=0;k<3;k++){ op('b7_'+k, (si>=k+1 && si<5)?1:0); }
         var mix = si>=5 ? ease(C((t-s.starts[5])/1.6)) : 0;
@@ -776,7 +799,9 @@
     var p = C((t-s.starts[si])/(s.ends[si]-s.starts[si]));
     mixNow = 0;
     s.upd(t,si,p,s);
-    $('sub').textContent = (T<=0 && !playing) ? 'Press Play to start.' : speakerAt(s.start+s.starts[si]) + ': ' + s.narr[si];
+    var capTxt = s.narr[si];
+    if(s.chunks && s.chunks[si]){ var cc = s.chunks[si]; capTxt = cc[0][1]; for(var q=0;q<cc.length;q++){ if(t>=cc[q][0]) capTxt = cc[q][1]; } }
+    $('sub').textContent = (T<=0 && !playing) ? 'Press Play to start.' : speakerAt(s.start+s.starts[si]) + ': ' + capTxt;
     $('time').textContent = fmt(T)+' / '+fmt(total);
     if(!scrubbing) scrub.value = T;
     if(!orbit.drag){ var kk = Math.exp(-dt*1.2); orbit.yaw *= kk; orbit.pitch *= kk; }
@@ -801,17 +826,35 @@
       pedSeg = seg;
       return;
     }
-    if(seg!==pedSeg || pedrigalAudio.paused || Math.abs(pedrigalAudio.currentTime-want)>0.4){
+    if(seg!==pedSeg || pedrigalAudio.paused || Math.abs(pedrigalAudio.currentTime-want)>1.0){
       pedSeg = seg;
       pedrigalAudio.currentTime = want;
       pedrigalAudio.play().catch(function(){});
     }
   }
 
+  /* Pedrigal's recording is also a master clock: while one of his lines is really playing,
+     the video time is the audio position mapped back onto the video timeline */
+  function pedrigalClock(){
+    if(pedSeg<0 || pedrigalAudio.paused || pedrigalAudio.readyState<2) return null;
+    var seg = PED[pedSeg], ct = pedrigalAudio.currentTime;
+    if(ct<seg[1]+0.02 || ct>=seg[2]) return null;
+    return seg[0] + (ct - seg[1]);
+  }
+
   function tick(now){
     var dt = (now-last)/1000; last = now;
     if(playing){
       T += Math.min(dt,0.1);
+      /* Federizo's and Yute's parts: the recorded voice is the master clock.
+         Captions and animation are pulled to the audio position, so they can never drift from the narrator
+         (audio start-up delay, buffering, slow frames). If the audio stalls, the video waits for it. */
+      var nc = window.narrationClock ? window.narrationClock() : null;
+      if(nc === null){ nc = pedrigalClock(); }
+      if(nc !== null){
+        var dd = nc - T;
+        if(Math.abs(dd) > 0.25){ T = nc; } else { T += dd*0.2; }
+      }
       if(T>=total){ T = total-0.01; setPlaying(false); playBtn.textContent='Replay'; }
     }
     syncPedrigal();

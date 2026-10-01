@@ -12,12 +12,14 @@
        Fuertes   : rest of scene 4 + scene 5                                     92 s -> 140 s
        Federizo  : The equations + Sample problem part (a)                      140 s -> 228.1 s
        Yute      : Sample problem parts (b) and (c) + Recap                    228.07 s -> 382.3 s
-     The video is now 6:22 long (382.25 s). */
+     The video is now 6:22 long (382.25 s).
+     master:true = this recording is the master clock: while it plays, the video (captions and
+     animation) is pulled to the audio position, so it always follows the narrator. */
   var CLIPS = [
-    { name:'Palconete', file:'audio/palconete_synced.mp3', start:0,   len:40, tol:0.4 },
-    { name:'Fuertes',   file:'audio/fuertes_synced.mp3',   start:92,  len:48, tol:0.4 },
-    { name:'Federizo',  file:'audio/federizo_synced.mp3',  start:140, len:88.11, tol:0.4 },
-    { name:'Yute',      file:'audio/yute_synced.mp3',      start:228.07, len:154.23, tol:0.4 }
+    { name:'Palconete', file:'audio/palconete_synced.mp3', start:0,   len:40, tol:0.4, master:true },
+    { name:'Fuertes',   file:'audio/fuertes_synced.mp3',   start:92,  len:48, tol:0.4, master:true },
+    { name:'Federizo',  file:'audio/federizo_synced.mp3',  start:140, len:88.11, tol:0.4, master:true },
+    { name:'Yute',      file:'audio/yute_synced.mp3',      start:228.07, len:154.23, tol:0.4, master:true }
   ];
   var missing = {}, unlocked = false, wasBlocked = false;
   CLIPS.forEach(function(c){
@@ -25,6 +27,21 @@
     c.a.preload = 'auto';
     c.a.addEventListener('error', function(){ missing[c.name] = true; say('Cannot load '+c.file+' - check it is in the audio folder'); });
   });
+
+  /* Video time according to the narrator's audio, or null when no master recording is playing.
+     js/main.js reads this every frame and keeps captions + animation locked to it. */
+  window.narrationClock = function(){
+    var Tv = parseFloat(scrub.value) || 0;
+    for(var i=0;i<CLIPS.length;i++){
+      var c = CLIPS[i], a = c.a;
+      if(!c.master || missing[c.name]) continue;
+      if(Tv < c.start-0.5 || Tv > c.start+c.len+0.5) continue;
+      if(a.paused || a.ended || a.readyState < 2 || !a.duration) continue;
+      if(a.currentTime < 0.02 || a.currentTime > a.duration-0.03) continue;
+      return c.start + a.currentTime;
+    }
+    return null;
+  };
 
   /* ---- Background music ----
      audio/background.mp3 (3:55) follows the video and restarts from its beginning when it
@@ -99,7 +116,10 @@
       if(running && inside && !missing[c.name]){
         var want = T - c.start;                      /* position inside the clip */
         if(a.duration && want < a.duration){
-          if(Math.abs(a.currentTime - want) > c.tol){ a.currentTime = want; }
+          /* master clips are never seeked while playing: the video follows them, not the other way round.
+             They are only seeked when starting, or after the person jumps/scrubs far away. */
+          var tol = (c.master && !a.paused) ? 1.0 : c.tol;
+          if(Math.abs(a.currentTime - want) > tol){ a.currentTime = want; }
           if(a.paused){
             var p = a.play();
             if(p && p.catch){ p.then(function(){ say(''); }).catch(function(){ wasBlocked = true; say('Click the page once to turn on sound'); }); }
