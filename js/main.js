@@ -603,34 +603,45 @@
         setCam(0,4.0,15.5, 0,4.0,-0.5, t);
         anchor('n5', 0, 1.25, -.5);
       }},
-    { name:'Sample problem', dur:61.0, g:r6.g,
-      /* 0-7 = Federizo (recorded, cues follow her audio). 8-16 = Yute (not recorded yet, cues are placeholders) */
+    { name:'Sample problem', dur:149.6, g:r6.g,
+      /* 0-9 = Federizo. 6-9 follow her new solving take (vernprobs.mp3), which starts at scene time 22.65.
+         10-24 = Yute (not recorded yet, cue times are estimates from Federizo's pace) */
       narr:['Let us try one.',
             'A ball is thrown upward at 20 meters per second.',
             'To find the time.',
             'Given: Vo is 20 meters per second, and Vf is 0 meters per second.',
             'Unknown: t max.',
             'Equation: Vf equals Vo plus gt.',
-            'Solving, t max equals 20 meters per second over 9.8 meters per second squared.',
+            'Solving: substitute the values. Zero equals 20 meters per second plus negative 9.8 meters per second squared times t max.',
+            'Move 20 to the other side: negative 20 equals negative 9.8 times t max.',
+            'Divide both sides by negative 9.8, so t max equals 20 over 9.8.',
             'Answer: t max is 2.04 seconds.',
             'To find the height.',
             'Given: Vo is 20 meters per second, Vf is 0 meters per second, and t is 2.04 seconds.',
+            'Unknown: d.',
             'Equation: d equals Vo t plus gt squared over 2.',
-            'Solving, d equals 40.8 meters minus 20.39 meters.',
+            'Solving: substitute the values. d equals 20 meters per second times 2.04 seconds, plus negative 9.8 meters per second squared times 2.04 seconds squared, over 2.',
+            'Multiply: 20 times 2.04 is 40.8 meters, and negative 9.8 times 2.04 squared over 2 is negative 20.39 meters.',
+            'Subtract: d equals 40.8 meters minus 20.39 meters.',
             'Answer: d is 20.41 meters.',
             'To find the time in the air.',
-            'Given: t up is 2.04 seconds, and t down is 2.04 seconds.',
-            'Unknown: t air. Equation: t up plus t down.',
-            'Solution: 2.04 seconds plus 2.04 seconds. Answer: t air is 4.08 seconds.'],
-      at:[0,1.8,5.85,6.9,16.1,18.65,22.65,30.1,34.9,37.2,40.6,44.0,46.2,48.4,51.0,54.7,58.4],
+            'Given: the time going up equals the time coming down. So t up is 2.04 seconds, and t down is 2.04 seconds.',
+            'Unknown: t air.',
+            'Equation: t air equals t up plus t down.',
+            'Solving: substitute the values. t air equals 2.04 seconds plus 2.04 seconds.',
+            'Add: 2.04 plus 2.04 equals 4.08.',
+            'Answer: t air is 4.08 seconds.'],
+      at:[0,1.8,5.85,6.9,16.1,18.65,22.65,35.35,44.5,52.5,
+          59.1,61.8,71.5,73.2,78.9,92.6,102.8,107.5,
+          110.7,114.9,126.6,128.8,134.0,140.7,144.4],
       upd:function(t,si,p,s){
         op('p6', si>=1?1:0);
         /* work panel: Given / Unknown / Equation / Solution / Answer, one part at a time.
            TH rows: [title, given, unknown, equation, solution, answer] = caption number at which each row appears */
-        var P = si>=13 ? 2 : (si>=8 ? 1 : (si>=2 ? 0 : -1));
+        var P = si>=18 ? 2 : (si>=10 ? 1 : (si>=2 ? 0 : -1));
         setWork(P);
-        var TH = [[2,3,4,5,6,7],[8,9,9,10,11,12],[13,14,15,15,16,16]][Math.max(P,0)];
-        var ansOn = si>=TH[5] && (P<2 || t>=s.starts[16]+1.0);
+        var TH = [[2,3,4,5,6,9],[10,11,12,13,14,17],[18,19,20,21,22,24]][Math.max(P,0)];
+        var ansOn = si>=TH[5];
         op('w6', P>=0?1:0);
         op('w6t', si>=TH[0]?1:0); op('w6g', si>=TH[1]?1:0); op('w6u', si>=TH[2]?1:0);
         op('w6e', si>=TH[3]?1:0); op('w6s', si>=TH[4]?1:0); op('w6a', ansOn?1:0);
@@ -640,10 +651,10 @@
         pose(r6.m, sT<0.3?1.9:0.5, 0.15);
         for(var i=0;i<w6.length;i++){
           look(w6[i], C((y-r6.launch)/PEAK)*0.6);
-          pose(w6[i], si>=16?2.8+Math.sin(t*9+i)*0.3:0.15, si>=16?2.8+Math.cos(t*9+i)*0.3:0.15);
+          pose(w6[i], si>=24?2.8+Math.sin(t*9+i)*0.3:0.15, si>=24?2.8+Math.cos(t*9+i)*0.3:0.15);
         }
-        op('hb6', si>=8?1:0); hd6.visible = si>=8;
-        $('hb6').textContent = si>=12 ? 'H = 20.41 m' : 'H';
+        op('hb6', si>=10?1:0); hd6.visible = si>=10;
+        $('hb6').textContent = si>=17 ? 'H = 20.41 m' : 'H';
         setCam(-0.3,5.2,16, -0.6,5.0,0, t);
         anchor('hb6', BX6+1.9, r6.launch+PEAK/2, 0);
       }},
@@ -741,7 +752,7 @@
   canvas.addEventListener('pointercancel', endDrag);
 
   /* ---------- narrators: [start time in seconds, name] ---------- */
-  var SPEAKERS = [[0,'PALCONETE'],[40,'PEDRIGAL'],[92,'FUERTES'],[140,'FEDERIZO'],[199.9,'YUTE']];
+  var SPEAKERS = [[0,'PALCONETE'],[40,'PEDRIGAL'],[92,'FUERTES'],[140,'FEDERIZO'],[224.1,'YUTE']];
   function speakerAt(x){
     var name = SPEAKERS[0][1];
     for(var i=0;i<SPEAKERS.length;i++){ if(x>=SPEAKERS[i][0]) name = SPEAKERS[i][1]; }
