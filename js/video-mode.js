@@ -5,22 +5,19 @@
   setTimeout(function(){ play.click(); }, 400);             /* autoplay */
 
   /* ---- Recorded voices, one clip per teammate ----
-     Each file is already retimed sentence by sentence to the animation cues and is
-     exactly `len` seconds long, starting at `start` on the video timeline.
-       Palconete : scene 1 (Intro) + scene 2 (The question)                              0 s -> 40 s
-       Pedrigal  : scene 3 + start of scene 4 (played from js/main.js, not from here)   40 s -> 92 s
-       Fuertes   : rest of scene 4 + scene 5 (Going up, coming down)                    92 s -> 140 s
-       Veronica  : scene 5 (The equations) only                                         140 s -> 165 s
-       Federizo  : scene 6 (Sample problem), part (a) - natural speed, video follows her    165 s -> 199.2 s
-       Yute      : scene 7 (Recap) only                                                 226 s -> 248.9 s
-       NOTE: the video is now 4:08.9 long. Yute still has to record the sample problem parts (b) and (c)
-       (199.9 s -> 226 s), so that part is silent for now. The background music (3:55) ends early. */
+     Each file is retimed caption by caption to the animation cues and is exactly `len`
+     seconds long, starting at `start` on the video timeline.
+       Palconete : scene 1 (Intro) + scene 2 (The question)                      0 s -> 40 s
+       Pedrigal  : scene 3 + start of scene 4 (played from js/main.js)           40 s -> 92 s
+       Fuertes   : rest of scene 4 + scene 5                                     92 s -> 140 s
+       Federizo  : The equations + Sample problem part (a)                      140 s -> 228.1 s
+       Yute      : Sample problem parts (b) and (c) + Recap                    228.07 s -> 382.3 s
+     The video is now 6:22 long (382.25 s). */
   var CLIPS = [
     { name:'Palconete', file:'audio/palconete_synced.mp3', start:0,   len:40, tol:0.4 },
-    { name:'Veronica', file:'audio/veronica.mp3',  start:140, len:25, tol:0.25 },
-    { name:'Fuertes',  file:'audio/fuertes_synced.mp3',   start:92,  len:48, tol:0.4 },
-    { name:'Federizo', file:'audio/federizo_problem.mp3',  start:165, len:34.19, tol:0.4 },
-    { name:'Yute',     file:'audio/yute_recap_synced.mp3', start:226.0, len:22.9, tol:0.4 }
+    { name:'Fuertes',   file:'audio/fuertes_synced.mp3',   start:92,  len:48, tol:0.4 },
+    { name:'Federizo',  file:'audio/federizo_synced.mp3',  start:140, len:88.11, tol:0.4 },
+    { name:'Yute',      file:'audio/yute_synced.mp3',      start:228.07, len:154.23, tol:0.4 }
   ];
   var missing = {}, unlocked = false, wasBlocked = false;
   CLIPS.forEach(function(c){
@@ -30,27 +27,18 @@
   });
 
   /* ---- Background music ----
-     audio/background.mp3 is the song looped back-to-back with smooth crossfades and cut to the
-     full length of the video (3:55), with a fade-in at the start and a fade-out at the end.
-     It gets louder when nobody is speaking and dips lower while a recorded voice is speaking. */
-  var BG = { file:'audio/background.mp3', base:0.55, duck:0.20, tol:1.0 };   /* volumes: 0 (mute) to 1 (full)
-                                                                           base = nobody speaking, duck = someone speaking */
-  /* When the recorded voices are actually speaking, in seconds on the video timeline
-     (short pauses between words/sentences are merged, so the music stays low during a speech).
-       0 - 40 s    Palconete
-       40 - 92 s   Pedrigal
-       92 - 140 s  Fuertes
-       140 - 165 s Veronica (equations)
-       165 - 199 s Federizo (sample problem, part a)
-       199 - 226 s Sample problem (b) and (c): waiting for Yute's recording
-       226 - 249 s Yute (recap) */
+     audio/background.mp3 (3:55) follows the video and restarts from its beginning when it
+     ends, because the video is now longer than the song. It gets louder when nobody is
+     speaking and dips lower while a recorded voice is speaking. */
+  var BG = { file:'audio/background.mp3', base:0.55, duck:0.20, tol:1.0 };   /* volumes: 0 (mute) to 1 (full) */
+  /* When the recorded voices are speaking, in seconds on the video timeline
+     (short pauses between sentences are merged, so the music stays low during a speech). */
   var VOICE = [
     [0.22, 13.56], [14.76, 21.89], [23.13, 28.32], [31.47, 37.65],                                   /* Palconete */
     [40.0, 47.75], [50.0, 59.9], [63.0, 66.1], [70.0, 79.2], [82.0, 91.05],                          /* Pedrigal  */
     [92.05, 109.1], [110.05, 111.7], [115.05, 122.3], [126.05, 129.4], [132.05, 137.1],              /* Fuertes   */
-    [140.53, 144.69], [146.34, 163.43],                                                              /* Veronica  */
-    [165.04, 186.40], [187.68, 199.03],                                                              /* Federizo  */
-    [226.05, 248.3]                                                                                  /* Yute      */
+    [140.05, 143.61], [146.05, 202.45], [204.37, 211.51], [213.52, 225.61],                          /* Federizo  */
+    [228.12, 309.49], [311.29, 321.74], [322.99, 381.25]                                             /* Yute      */
   ];
   BG.a = new Audio(BG.file);
   BG.a.preload = 'auto';
@@ -97,7 +85,7 @@
     }
     else if(e.key === 'p' || e.key === 'P'){ jump(clip('Palconete').start); }   /* test: jump to Palconete's part */
     else if(e.key === 'u' || e.key === 'U'){ jump(clip('Fuertes').start); }     /* test: jump to Fuertes's part */
-    else if(e.key === 'v' || e.key === 'V'){ jump(clip('Veronica').start); }    /* test: jump to Veronica's part */
+    else if(e.key === 'v' || e.key === 'V'){ jump(clip('Federizo').start); }    /* test: jump to Federizo's part */
     else if(e.key === 'y' || e.key === 'Y'){ jump(clip('Yute').start); }        /* test: jump to Yute's part */
   });
 
@@ -121,14 +109,15 @@
         a.pause();
       }
     });
-    /* background music: follows the video, loops via the pre-looped file, ducks under the voices */
+    /* background music: follows the video, restarts when the song ends, ducks under the voices */
     var b = BG.a;
     for(var vi=0; vi<VOICE.length; vi++){
       if(T >= VOICE[vi][0]-0.25 && T < VOICE[vi][1]+0.3){ narrating = running; break; }   /* a little early / late so it never clashes */
     }
     if(running && !BG.missing){
-      if(b.duration && T < b.duration){
-        if(Math.abs(b.currentTime - T) > BG.tol){ b.currentTime = T; }
+      if(b.duration){
+        var pos = T % b.duration;                    /* wraps around after 3:55 */
+        if(Math.abs(b.currentTime - pos) > BG.tol){ b.currentTime = pos; }
         if(b.paused){
           var pb = b.play();
           if(pb && pb.then){ pb.then(function(){ say(''); }).catch(function(){ wasBlocked = true; say('Click the page once to turn on sound'); }); }

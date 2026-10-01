@@ -585,9 +585,9 @@
         anchor('vp4', BX4+1.3, y, 0);
         anchor('g4', 7.2, 9.6, 0);
       }},
-    { name:'The equations', dur:25, g:g5,
+    { name:'The equations', dur:26.9, g:g5,
       narr:['To solve free fall problems, we use three equations. Here they are.','The first connects velocity and time: Vf equals Vo plus gt.','The second connects distance and time. It tells us how far.','The third connects velocity and distance. It works even without time.','Remember to use negative 9.8 for g.'],
-      at:[0,6,11,15,20],
+      at:[0,6,11.47,16.8,21.9],
       upd:function(t,si,p,s){
         for(var k=0;k<3;k++){
           var a=k+1, ts = si>=a ? t-s.starts[a] : -1;
@@ -603,9 +603,9 @@
         setCam(0,4.0,15.5, 0,4.0,-0.5, t);
         anchor('n5', 0, 1.25, -.5);
       }},
-    { name:'Sample problem', dur:149.6, g:r6.g,
-      /* 0-9 = Federizo. 6-9 follow her new solving take (vernprobs.mp3), which starts at scene time 22.65.
-         10-24 = Yute (not recorded yet, cue times are estimates from Federizo's pace) */
+    { name:'Sample problem', dur:187.91, g:r6.g,
+      /* 0-9 = Federizo (part a). 10-17 = Yute (part b). 18-24 = Yute (part c).
+         Cue times are synced to the recorded voices (federizo_synced.mp3, yute_synced.mp3). */
       narr:['Let us try one.',
             'A ball is thrown upward at 20 meters per second.',
             'To find the time.',
@@ -631,9 +631,9 @@
             'Solving: substitute the values. t air equals 2.04 seconds plus 2.04 seconds.',
             'Add: 2.04 plus 2.04 equals 4.08.',
             'Answer: t air is 4.08 seconds.'],
-      at:[0,1.8,5.85,6.9,16.1,18.65,22.65,35.35,44.5,52.5,
-          59.1,61.8,71.5,73.2,78.9,92.6,102.8,107.5,
-          110.7,114.9,126.6,128.8,134.0,140.7,144.4],
+      at:[0,2.03,6.11,8.23,17.43,19.98,24.72,37.42,46.57,54.57,
+          61.17,63.87,75.74,77.66,83.47,105.65,124.97,133.75,
+          140.14,144.34,156.04,158.63,163.83,174.15,182.45],
       upd:function(t,si,p,s){
         op('p6', si>=1?1:0);
         /* work panel: Given / Unknown / Equation / Solution / Answer, one part at a time.
@@ -658,9 +658,9 @@
         setCam(-0.3,5.2,16, -0.6,5.0,0, t);
         anchor('hb6', BX6+1.9, r6.launch+PEAK/2, 0);
       }},
-    { name:'Recap', dur:22.9, g:g7,
+    { name:'Recap', dur:27.44, g:g7,
       narr:['Let us review.','Free fall is motion under gravity alone. Nothing else.','The acceleration is 9.8 meters per second squared, directed downward. That is g.','And the time going up equals the time coming down.','Now you know why the ball and the feather fall together.','Thanks for watching!'],
-      at:[0,1.3,6.0,13.8,17.5,20.9],
+      at:[0,1.84,7.0,16.44,20.59,24.78],
       upd:function(t,si,p,s){
         for(var k=0;k<3;k++){ op('b7_'+k, (si>=k+1 && si<5)?1:0); }
         var mix = si>=5 ? ease(C((t-s.starts[5])/1.6)) : 0;
@@ -752,7 +752,7 @@
   canvas.addEventListener('pointercancel', endDrag);
 
   /* ---------- narrators: [start time in seconds, name] ---------- */
-  var SPEAKERS = [[0,'PALCONETE'],[40,'PEDRIGAL'],[92,'FUERTES'],[140,'FEDERIZO'],[224.1,'YUTE']];
+  var SPEAKERS = [[0,'PALCONETE'],[40,'PEDRIGAL'],[92,'FUERTES'],[140,'FEDERIZO'],[228.07,'YUTE']];
   function speakerAt(x){
     var name = SPEAKERS[0][1];
     for(var i=0;i<SPEAKERS.length;i++){ if(x>=SPEAKERS[i][0]) name = SPEAKERS[i][1]; }
